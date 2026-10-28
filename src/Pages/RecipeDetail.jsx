@@ -2,15 +2,17 @@ import React from 'react'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from 'react-router';
+import useLoading from '../hooks/useLoading';
 
 function RecipeDetail() {
 
   const { id } = useParams()
 
   const [recipe, setRecipe] = useState({});
-  const [Loading, setLoading] = useState(true);
+ const {Loading, startLoading , stopLoading} = useLoading();
   const [errorMsg, seterrorMsg] = useState("");
-  async function fetchRecipe(params) {
+  async function fetchRecipe() {
+    startLoading()
     try {
       const { data } = await axios.get(`https://dummyjson.com/recipes/${id}`)
       setRecipe(data)
@@ -19,7 +21,7 @@ function RecipeDetail() {
     } catch (error) {
       seterrorMsg("Recipe detail not found!")
     }
-    setLoading(false)
+    stopLoading()
   }
   useEffect(() => { fetchRecipe() }, [])
 

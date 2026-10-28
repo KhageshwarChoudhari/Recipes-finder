@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import RecipeCard from "../Components/RecipeCard";
 import { useNavigate } from "react-router";
+import useLoading from "../hooks/useLoading";
 
 
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
   const [total, setTotal] = useState(0);
-  const [Loading, setLoading] = useState(true);
+  const {Loading, startLoading , stopLoading} = useLoading();
   const [errorMsg, seterrorMsg] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   async function fetchRecipes(skipCount, query) {
+    startLoading()
     try {
       let url = `https://dummyjson.com/recipes?limit=6&skip=${skipCount}`
       if (query) {
@@ -26,7 +28,7 @@ function Home() {
     } catch (error) {
       seterrorMsg("Could not load recipes. Please try again later...")
     }
-    setLoading(false)
+    stopLoading()
   }
   useEffect(() => { fetchRecipes(0) }, [])
 
