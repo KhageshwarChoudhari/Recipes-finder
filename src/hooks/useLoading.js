@@ -7,5 +7,5 @@ export default function useLoading() {
   const startLoading = () => setloading(true);
   const stopLoading = () => setloading(false);
 
-  return (loading, startLoading, stopLoading);
+  return {loading, startLoading, stopLoading};
 }
