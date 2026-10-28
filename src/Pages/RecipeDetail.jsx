@@ -9,14 +9,14 @@ function RecipeDetail() {
   const { id } = useParams()
 
   const [recipe, setRecipe] = useState({});
- const {Loading, startLoading , stopLoading} = useLoading();
+  const { Loading, startLoading, stopLoading } = useLoading();
   const [errorMsg, seterrorMsg] = useState("");
   async function fetchRecipe() {
     startLoading()
     try {
       const { data } = await axios.get(`https://dummyjson.com/recipes/${id}`)
       setRecipe(data)
-      setLoading(false)
+      stopLoading()
 
     } catch (error) {
       seterrorMsg("Recipe detail not found!")
@@ -27,13 +27,13 @@ function RecipeDetail() {
 
 
   if (Loading) { return <p className='text-center py-6 text-muted'>Loading...</p> }
-if (errorMsg) {
+  if (errorMsg) {
     return (
       <main className="max-w-6xl mx-auto px-4 py-16 text-center">
-      <h1 className="font-serif text-5xl font-bold text-accent mb-2">404</h1>
-      <h2 className="text-xl font-semibold mb-3">{errorMsg}</h2>
-      <p className="text-muted mb-6">The recipe details you are looking for does not exist.</p>
-    </main>
+        <h1 className="font-serif text-5xl font-bold text-accent mb-2">404</h1>
+        <h2 className="text-xl font-semibold mb-3">{errorMsg}</h2>
+        <p className="text-muted mb-6">The recipe details you are looking for does not exist.</p>
+      </main>
     );
   }
   return (
